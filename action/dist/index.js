@@ -12972,7 +12972,7 @@ const main = async ({ env = process.env, log, }) => {
     }
     const folder = path.resolve(process.cwd(), config.folder);
     log.log(`##[info] Clean up SRC folder ${folder}`);
-    const filesToDelete2 = (0, fast_glob_1.stream)(['.git/**', 'NEATBYTE*', '.github/*', 'known_hosts'], {
+    const filesToDelete2 = (0, fast_glob_1.stream)(['.git/**', 'NEATBYTE*', '.github/**', 'known_hosts'], {
         absolute: true,
         dot: true,
         followSymbolicLinks: false,

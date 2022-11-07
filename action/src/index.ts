@@ -562,7 +562,7 @@ export const main = async ({
 
 
   log.log(`##[info] Clean up SRC folder ${folder}`);
-  const filesToDelete2 = fgStream(['.git/**', 'NEATBYTE*', '.github/*', 'known_hosts'], {
+  const filesToDelete2 = fgStream(['.git/**', 'NEATBYTE*', '.github/**', 'known_hosts'], {
     absolute: true,
     dot: true,
     followSymbolicLinks: false,
