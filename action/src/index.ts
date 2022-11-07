@@ -436,6 +436,8 @@ export const main = async ({
   }
 
   // Clone the target repo
+  log.log(`##[debug] Cloning the repo: git clone "${config.repo}" "${REPO_TEMP}"`);
+
   await exec(`git clone "${config.repo}" "${REPO_TEMP}"`, {
     log,
     env: childEnv,
@@ -480,7 +482,7 @@ export const main = async ({
     if (branchCheck.stdout.trim() === '') {
       // Branch does not exist yet, let's check it out as an orphan
       log.log(`##[info] ${config.branch} does not exist, creating as orphan`);
-      await exec(`git checkout --orphan "${config.branch}"`, {
+      await exec(`git checkout -b "${config.branch}"`, {
         log,
         env: childEnv,
         cwd: REPO_TEMP,

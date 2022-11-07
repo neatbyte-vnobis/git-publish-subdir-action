@@ -12856,6 +12856,7 @@ const main = async ({ env = process.env, log, }) => {
         log.log(`Private key added`);
     }
     // Clone the target repo
+    log.log(`##[debug] Cloning the repo: git clone "${config.repo}" "${REPO_TEMP}"`);
     await (0, exports.exec)(`git clone "${config.repo}" "${REPO_TEMP}"`, {
         log,
         env: childEnv,
@@ -12897,7 +12898,7 @@ const main = async ({ env = process.env, log, }) => {
         if (branchCheck.stdout.trim() === '') {
             // Branch does not exist yet, let's check it out as an orphan
             log.log(`##[info] ${config.branch} does not exist, creating as orphan`);
-            await (0, exports.exec)(`git checkout --orphan "${config.branch}"`, {
+            await (0, exports.exec)(`git checkout -b "${config.branch}"`, {
                 log,
                 env: childEnv,
                 cwd: REPO_TEMP,
