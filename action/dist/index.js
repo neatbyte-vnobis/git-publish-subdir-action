@@ -12964,6 +12964,7 @@ const main = async ({ env = process.env, log, }) => {
     });
     // Delete all files from the filestream
     for await (const entry of filesToDelete) {
+        log.log(`##[info] Delete file:`, entry);
         await fs_1.promises.unlink(entry);
     }
     const folder = path.resolve(process.cwd(), config.folder);
