@@ -549,11 +549,23 @@ export const main = async ({
   });
   // Delete all files from the filestream
   for await (const entry of filesToDelete) {
-    log.log(`##[info] Delete file:`, entry);
-
     await fs.unlink(entry);
   }
   const folder = path.resolve(process.cwd(), config.folder);
+
+
+  log.log(`##[info] Clean up SRC folder ${folder}`);
+  const filesToDelete2 = fgStream(['.git', 'NEATBYTE*', '.github/**'], {
+    absolute: true,
+    dot: true,
+    followSymbolicLinks: false,
+    cwd: config.folder,
+  });
+  for await (const entry of filesToDelete2) {
+    log.log(`##[info] Delete file from SRC folder ${entry}`);
+    await fs.unlink(entry);
+  }
+
   log.log(`##[info] Copying all files from ${folder}`);
   // TODO: replace this copy with a node implementation
   await exec(`cp -vrT "${folder}"/ ./`, { log, env: childEnv, cwd: REPO_TEMP });
