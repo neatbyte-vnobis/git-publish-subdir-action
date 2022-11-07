@@ -133,6 +133,9 @@ export interface EnvironmentVariables {
   GITHUB_EVENT_PATH?: string;
   /** The name of the person / app that that initiated the workflow */
   GITHUB_ACTOR?: string;
+
+  COMMIT_AUTHOR?: string;
+  COMMIT_AUTHOR_EMAIL?: string;
 }
 
 declare global {
@@ -329,8 +332,12 @@ export const main = async ({
   );
 
   const name =
-    event.pusher?.name || env.GITHUB_ACTOR || 'Git Publish Subdirectory';
+    env.COMMIT_AUTHOR ||
+    event.pusher?.name ||
+    env.GITHUB_ACTOR ||
+    'Git Publish Subdirectory';
   const email =
+    env.COMMIT_AUTHOR_EMAIL ||
     event.pusher?.email ||
     (env.GITHUB_ACTOR
       ? `${env.GITHUB_ACTOR}@users.noreply.github.com`
@@ -555,7 +562,7 @@ export const main = async ({
 
 
   log.log(`##[info] Clean up SRC folder ${folder}`);
-  const filesToDelete2 = fgStream(['.git/**', 'NEATBYTE*', '.github/**/*'], {
+  const filesToDelete2 = fgStream(['.git/**', 'NEATBYTE*', '.github/*', 'known_hosts'], {
     absolute: true,
     dot: true,
     followSymbolicLinks: false,

@@ -12764,8 +12764,12 @@ const main = async ({ env = process.env, log, }) => {
     if (!env.GITHUB_EVENT_PATH)
         throw new Error('Expected GITHUB_EVENT_PATH');
     const event = JSON.parse((await fs_1.promises.readFile(env.GITHUB_EVENT_PATH)).toString());
-    const name = ((_a = event.pusher) === null || _a === void 0 ? void 0 : _a.name) || env.GITHUB_ACTOR || 'Git Publish Subdirectory';
-    const email = ((_b = event.pusher) === null || _b === void 0 ? void 0 : _b.email) ||
+    const name = env.COMMIT_AUTHOR ||
+        ((_a = event.pusher) === null || _a === void 0 ? void 0 : _a.name) ||
+        env.GITHUB_ACTOR ||
+        'Git Publish Subdirectory';
+    const email = env.COMMIT_AUTHOR_EMAIL ||
+        ((_b = event.pusher) === null || _b === void 0 ? void 0 : _b.email) ||
         (env.GITHUB_ACTOR
             ? `${env.GITHUB_ACTOR}@users.noreply.github.com`
             : 'nobody@nowhere');
@@ -12968,7 +12972,7 @@ const main = async ({ env = process.env, log, }) => {
     }
     const folder = path.resolve(process.cwd(), config.folder);
     log.log(`##[info] Clean up SRC folder ${folder}`);
-    const filesToDelete2 = (0, fast_glob_1.stream)(['.git/**', 'NEATBYTE*', '.github/**/*'], {
+    const filesToDelete2 = (0, fast_glob_1.stream)(['.git/**', 'NEATBYTE*', '.github/*', 'known_hosts'], {
         absolute: true,
         dot: true,
         followSymbolicLinks: false,
