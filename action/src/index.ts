@@ -436,7 +436,7 @@ export const main = async ({
   }
 
   // Clone the target repo
-  log.log(`##[debug] Cloning the repo: git clone "${config.repo}" "${REPO_TEMP}"`);
+  log.log(`##[info] Vit Cloning the repo: git clone "${config.repo}" "${REPO_TEMP}"`);
 
   await exec(`git clone "${config.repo}" "${REPO_TEMP}"`, {
     log,
